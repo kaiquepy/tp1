@@ -3,14 +3,14 @@ Arquivo que contém a estrutura de dados pesquisa sequencial
 """
 
 def pesquisa_sequencial(nome_do_arquivo: str, chave: str) -> int:
-    """Estrutura de dadas de pesquisa sequencial
+    """Estrutura de dados de pesquisa sequencial
 
     Args:
-        nome_do_arquivo (str): Nome do arquivo que será feita a pesquisa
-        chave (str): Registro a ser procurado
+        nome_do_arquivo (str): Nome do arquivo que será feita a pesquisa.
+        chave (str): Registro a ser procurado.
 
     Returns:
-        int: Retona o número comparações feitas
+        int: Retona o número comparações feitas.
     """
     numero_de_comparacoes = 0
 
