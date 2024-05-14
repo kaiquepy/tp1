@@ -4,7 +4,7 @@ Arquivo que contém a estrutura de dados árvore binária
 
 
 class Tiporeg:
-    def __init__(self, chave, dado1, dado2):
+    def __init__(self, chave: int, dado1: int, dado2: str) -> None:
         self.chave = chave
         self.dado1 = dado1
         self.dado2 = dado2
@@ -56,14 +56,19 @@ class ArvoreBinaria:
             return True
 
 
-def retorna_tipo_reg(s):
-    aux = Tiporeg(0, 0, "")
-    auxS = s
-    delimiter = ";"
-    pos = s.find(delimiter)
-    aux.chave = int(s[:pos])
-    aux.dado1 = int(s[pos + 1:])
-    pos = s.find(delimiter, pos + 1)
-    auxS = s[pos + 1:]
-    aux.dado2 = auxS
-    return aux
+def retorna_tipo_reg(s) -> Tiporeg:
+    """_summary_
+
+    Args:
+        s (_type_): _description_
+
+    Returns:
+        Tiporeg: _description_
+    """
+    registro = Tiporeg(0, 0, "")
+
+    aux = s.split(";")
+    registro.chave = int(aux[0])
+    registro.dado1 = int(aux[1])
+    registro.dado2 = aux[2]
+    return registro

@@ -52,5 +52,5 @@ def gerar_arquivo(linhas: int, chaves_ordenadas: bool) -> None:
     with open(nome_do_arquivo, "w", encoding="utf-8") as arquivo:
         for i in range(linhas):
             dado2 = ''.join(random.choices(string.ascii_uppercase, k=1000))
-            linha = f'{chave[i]},12345,{dado2}\n'
+            linha = f'{chave[i]};12345;{dado2}\n'
             arquivo.write(linha)
