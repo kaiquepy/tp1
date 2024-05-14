@@ -11,7 +11,6 @@ from modules.arvore_avl import ArvoreAVL
 def arvore_binaria_test() -> None:
     """_summary_
     """
-
     arvore = ArvoreBinaria()
 
     nome_arquivo = "arquivos_entrada/100.txt"
@@ -36,12 +35,10 @@ def arvore_binaria_test() -> None:
             chave_aleatoria = random.randint(0, 9999)
 
         arvore.numero_interacoes = 0
+
         start_time = time.time()
-
         resultado_chave_encontrada = arvore.buscar(arvore.raiz, chave_aleatoria)
-
-        end_time = time.time()
-        elapsed_time = end_time - start_time
+        elapsed_time = time.time() - start_time
 
         if resultado_chave_encontrada and total_presente <= 15:
             vetor_encontradas.append(f"Chave ({chave_aleatoria:06}) encontrada na árvore. Tempo de busca: {elapsed_time:.9f} segundos. Interações: {arvore.numero_interacoes}")
@@ -62,36 +59,38 @@ def arvore_binaria_test() -> None:
 def arvore_avl() -> None:
     """_summary_
     """
-    random.seed(time.time())
     arvore = ArvoreAVL()
+
     nome_arquivo = "arquivos_entrada/100.txt"
+    vetor_encontradas = []
+    vetor_nao_encontradas = []
+    total_presente = 0
+    total_ausente = 0
 
     with open(nome_arquivo, "r", encoding="utf-8") as arquivo:
         for linha in arquivo:
             linha = linha.strip()
             registro_temp = retorna_tipo_reg(linha)
             arvore.raiz = arvore.inserir(arvore.raiz, registro_temp)
+    arquivo.close()
 
-    vetor_encontradas = []
-    vetor_nao_encontradas = []
-    total_presente = 0
-    total_ausente = 0
     gerou_todas = False
-
     while not gerou_todas:
-        chave_aleatoria = random.randint(0, 19999) if total_ausente < 15 else random.randint(0, 9999)
+        if total_ausente < 15:
+            chave_aleatoria = random.randint(0, 19999)
+        else:
+            chave_aleatoria = random.randint(0, 9999)
+
         arvore.numero_interacoes = 0
 
         start_time = time.time()
         resultado_chave_encontrada = arvore.buscar(arvore.raiz, chave_aleatoria)
         elapsed_time = time.time() - start_time
 
-        if resultado_chave_encontrada:
-            if total_presente < 15:
+        if resultado_chave_encontrada and total_presente < 15:
                 vetor_encontradas.append(f"Chave ({chave_aleatoria:06}) encontrada na árvore. Tempo de busca: {elapsed_time:.9f} segundos. Interações: {arvore.numero_interacoes}")
                 total_presente += 1
-        else:
-            if total_ausente < 15:
+        elif total_ausente < 15:
                 vetor_nao_encontradas.append(f"Chave ({chave_aleatoria:06}) não encontrada na árvore. Tempo de busca: {elapsed_time:.9f} segundos. Interações: {arvore.numero_interacoes}")
                 total_ausente += 1
 
