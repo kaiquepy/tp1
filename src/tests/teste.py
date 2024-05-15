@@ -2,7 +2,9 @@
 Arquivo de teste para as funções de busca em árvores binárias e AVL e pesquisa sequencial
 """
 
+import json
 import random
+import re
 import time
 from typing import List, Tuple
 from xmlrpc.client import boolean
@@ -21,7 +23,7 @@ def inserir_registros(arvore, nome_arquivo: str) -> None:
             arvore.raiz = arvore.inserir(arvore.raiz, chave_registro)
 
 
-def buscar_chaves_aleatorias(estrutura, chave_limite: int, max_presente: int, max_ausente: int) -> Tuple[List[str], List[str]]:
+def buscar_chaves_aleatorias(estrutura, chave_limite: int, max_presente: int, max_ausente: int) -> List[str]:
     """Função para buscar chaves aleatórias em uma árvore binária ou AVL
 
     Args:
@@ -31,8 +33,7 @@ def buscar_chaves_aleatorias(estrutura, chave_limite: int, max_presente: int, ma
         max_ausente (int): Quantidade máxima de chaves ausentes a serem buscadas
 
     Returns:
-        Tuple[List[str], List[str]]: Retorna duas listas,
-        uma com as chaves encontradas e outra com as chaves não encontradas
+        List[str]: Retorna uma lista com as chaves encontradas e não encontradas
     """
     total_presente = 0
     total_ausente = 0
@@ -49,7 +50,12 @@ def buscar_chaves_aleatorias(estrutura, chave_limite: int, max_presente: int, ma
         numero_de_comparacoes, resultado_chave_encontrada = estrutura.buscar(chave_aleatoria)
         elapsed_time = time.time() - start_time
 
-        resultado = f"Chave ({chave_aleatoria:06}) {'encontrada' if resultado_chave_encontrada else 'não encontrada'} na árvore. Tempo de busca: {elapsed_time:.9f} segundos. Interações: {numero_de_comparacoes}"
+        resultado = {
+            "chave": chave_aleatoria,
+            "encontrada": resultado_chave_encontrada,
+            "tempo_de_busca": f'{elapsed_time:.9f}',
+            "interacoes": numero_de_comparacoes
+        }
 
         if resultado_chave_encontrada and total_presente < max_presente:
             encontradas.append(resultado)
@@ -58,10 +64,10 @@ def buscar_chaves_aleatorias(estrutura, chave_limite: int, max_presente: int, ma
             nao_encontradas.append(resultado)
             total_ausente += 1
 
-    return encontradas, nao_encontradas
+    return encontradas + nao_encontradas
 
 
-def gravar_resultados(arquivo_entrada: str, nome_arquivo_saida: str, encontradas: List[str], nao_encontradas: List[str]) -> None:
+def gravar_resultados(arquivo_entrada: str, nome_arquivo_saida: str, resultados) -> None:
     """Função para gravar os resultados em um arquivo de saída
 
     Args:
@@ -69,15 +75,36 @@ def gravar_resultados(arquivo_entrada: str, nome_arquivo_saida: str, encontradas
         encontradas (List[str]): Lista com as chaves encontradas
         nao_encontradas (List[str]): Lista com as chaves não encontradas
     """
-    print(f"\nEstrutura de dados testada: {nome_arquivo_saida.split('/')[1].split('.')[0]}\n")
+    print(f"\nEstrutura de dados testada: {nome_arquivo_saida.split('/')[1].split('.')[0]}")
 
+    total_comparacoes = 0
+    total_tempo_busca = 0
+    total_encontradas = 0
+    total_nao_encontradas = 0
+
+    for resultado in resultados:
+        total_comparacoes += resultado["interacoes"]
+        total_tempo_busca += float(resultado["tempo_de_busca"])
+        if resultado["encontrada"]:
+            total_encontradas += 1
+        else:
+            total_nao_encontradas += 1
+
+    media_comparacoes = total_comparacoes / len(resultados) if len(resultados) > 0 else 0
+    media_tempo_busca = total_tempo_busca / len(resultados) if len(resultados) > 0 else 0
+
+    data = {
+        "arquivo_entrada": arquivo_entrada,
+        "total_de_buscas": len(resultados),
+        "total_encontradas": total_encontradas,
+        "total_nao_encontradas": total_nao_encontradas,
+        "media_comparacoes": f'{media_comparacoes:.2f}',
+        "media_tempo_busca": f'{media_tempo_busca:.9f}',
+        "resultados": resultados
+    }
     with open(nome_arquivo_saida, "a", encoding="utf-8") as arquivo_saida:
         print(f"Arquivo: {arquivo_entrada.split('/')[1]}")
-
-        arquivo_saida.write(f"\n\n{arquivo_entrada}\n")
-        for linha in encontradas + nao_encontradas:
-            print(linha)
-            arquivo_saida.write(f"{linha}\n")
+        json.dump(data, arquivo_saida, indent=4)
 
 
 def arvore_test(arvore, ordenado: boolean, arquivo_saida: str, chave_limite: int) -> None:
@@ -98,11 +125,11 @@ def arvore_test(arvore, ordenado: boolean, arquivo_saida: str, chave_limite: int
         ordenado_str = "_desordenado"
 
     entrada = f"{diretorio_entrada}{chave_limite}{ordenado_str}.txt"
-    saida = f"{diretorio_saida}{arquivo_saida}.txt"
+    saida = f"{diretorio_saida}{arquivo_saida}.json"
 
     inserir_registros(arvore, entrada)
-    encontradas, nao_encontradas = buscar_chaves_aleatorias(arvore, chave_limite, 15, 15)
-    gravar_resultados(entrada, saida, encontradas, nao_encontradas)
+    data = buscar_chaves_aleatorias(arvore, chave_limite, 15, 15)
+    gravar_resultados(entrada, saida, data)
 
 
 def pesquisa_sequencial_test(estutura, ordenado: boolean, arquivo_saida: str, chave_limite: int) -> None:
@@ -123,9 +150,9 @@ def pesquisa_sequencial_test(estutura, ordenado: boolean, arquivo_saida: str, ch
         ordenado_str = "_desordenado"
 
     entrada = f"{diretorio_entrada}{chave_limite}{ordenado_str}.txt"
-    saida = f"{diretorio_saida}{arquivo_saida}.txt"
+    saida = f"{diretorio_saida}{arquivo_saida}.json"
     estutura.set_nome_do_arquivo(entrada)
 
-    encontradas, nao_encontradas = buscar_chaves_aleatorias(estutura, chave_limite, 15, 15)
+    data = buscar_chaves_aleatorias(estutura, chave_limite, 15, 15)
 
-    gravar_resultados(entrada, saida, encontradas, nao_encontradas)
+    gravar_resultados(entrada, saida, data)
