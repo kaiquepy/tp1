@@ -1,5 +1,11 @@
-# Classe que define um nó da árvore AVL.
+"""
+Arquivo que contém a implementação da árvore AVL.
+"""
+
+
 class NoAVL:
+    """Class que define um nó da árvore AVL.
+    """
     def __init__(self, chave, dado1, dado2):
         self.chave = chave       # Chave do nó
         self.dado1 = dado1       # Primeiro dado (valor inteiro)
@@ -8,20 +14,44 @@ class NoAVL:
         self.direita = None      # Filho à direita
         self.altura = 1          # Altura do nó (inicializada como 1)
 
-# Função auxiliar para obter a altura de um nó.
-def obter_altura(no):
+
+def obter_altura(no) -> int:
+    """Função auxiliar para obter a altura de um nó.
+
+    Args:
+        no (_type_): Recebe um nó da árvore AVL.
+
+    Returns:
+        int: Retorna a altura do nó.
+    """
     if no is None:
         return 0
     return no.altura
 
-# Função auxiliar para obter o fator de balanceamento de um nó.
-def obter_fator_balanceamento(no):
+
+def obter_fator_balanceamento(no) -> int:
+    """Função auxiliar para obter o fator de balanceamento de um nó.
+
+    Args:
+        no (_type_): Recebe um nó da árvore AVL.
+
+    Returns:
+        int: Retorna o fator de balanceamento do nó.
+    """
     if no is None:
         return 0
     return obter_altura(no.esquerda) - obter_altura(no.direita)
 
-# Função auxiliar para fazer a rotação simples à direita.
-def rotacao_direita(y):
+
+def rotacao_direita(y) -> NoAVL:
+    """Função auxiliar para fazer a rotação simples à direita.
+
+    Args:
+        y (_type_): Recebe um nó da árvore AVL.
+
+    Returns:
+        NoAVL: Retorna um nó da árvore AVL.
+    """
     if y is None or y.esquerda is None:
         return y
 
@@ -36,8 +66,16 @@ def rotacao_direita(y):
 
     return x
 
-# Função auxiliar para fazer a rotação simples à esquerda.
-def rotacao_esquerda(x):
+
+def rotacao_esquerda(x) -> NoAVL:
+    """Função auxiliar para fazer a rotação simples à esquerda.
+
+    Args:
+        x (_type_): Recebe um nó da árvore AVL.
+
+    Returns:
+        NoAVL: Retorna um nó da árvore AVL.
+    """
     if x is None or x.direita is None:
         return x
 
@@ -52,8 +90,17 @@ def rotacao_esquerda(x):
 
     return y
 
-# Função que insere um nó na árvore AVL.
-def inserir(raiz, registro):
+
+def inserir(raiz, registro) -> NoAVL:
+    """Função para inserir um registro na árvore AVL.
+
+    Args:
+        raiz (_type_): Recebe a raiz da árvore AVL.
+        registro (_type_): Recebe o registro a ser inserido na árvore AVL.
+
+    Returns:
+        NoAVL: Retorna um nó da árvore AVL.
+    """
     if raiz is None:
         return NoAVL(registro.chave, registro.dado1, registro.dado2)
 
@@ -82,16 +129,31 @@ def inserir(raiz, registro):
 
     return raiz
 
-# Classe que define a árvore AVL.
+
 class ArvoreAVL:
+    """Class que define uma árvore AVL.
+    """
     def __init__(self):
         self.raiz = None
         self.numero_interacoes = 0
 
-    def inserir(self, registro):
+    def inserir(self, registro) -> None:
+        """Função para inserir um registro na árvore AVL.
+
+        Args:
+            registro (_type_): Registro a ser inserido na árvore AVL.
+        """
         self.raiz = inserir(self.raiz, registro)
 
     def buscar(self, chave):
+        """Função para buscar um registro na árvore AVL.
+
+        Args:
+            chave (_type_): Registro a ser buscado na árvore AVL.
+
+        Returns:
+            _type_: Retorna o nó da árvore AVL que contém a chave buscada.
+        """
         no = self._buscar(self.raiz, chave)
         return no
 
