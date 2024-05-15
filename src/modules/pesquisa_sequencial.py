@@ -2,6 +2,7 @@
 Arquivo que contém a estrutura de dados pesquisa sequencial
 """
 
+
 class PesquisaSequencial:
     """Class que representa a estrutura de dados pesquisa sequencial
     """

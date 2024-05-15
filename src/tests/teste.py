@@ -4,10 +4,8 @@ Arquivo de teste para as funções de busca em árvores binárias e AVL e pesqui
 
 import json
 import random
-import re
 import time
-from typing import List, Tuple
-from xmlrpc.client import boolean
+from typing import List
 from utils.registro import retorna_registro
 
 def inserir_registros(arvore, nome_arquivo: str) -> None:
@@ -107,7 +105,7 @@ def gravar_resultados(arquivo_entrada: str, nome_arquivo_saida: str, resultados)
         json.dump(data, arquivo_saida, indent=4)
 
 
-def arvore_test(arvore, ordenado: boolean, arquivo_saida: str, chave_limite: int) -> None:
+def arvore_test(arvore, ordenado: bool, arquivo_saida: str, chave_limite: int) -> None:
     """Função para testar a árvore binária ou AVL
 
     Args:
@@ -132,7 +130,7 @@ def arvore_test(arvore, ordenado: boolean, arquivo_saida: str, chave_limite: int
     gravar_resultados(entrada, saida, data)
 
 
-def pesquisa_sequencial_test(estutura, ordenado: boolean, arquivo_saida: str, chave_limite: int) -> None:
+def pesquisa_sequencial_test(estutura, ordenado: bool, arquivo_saida: str, chave_limite: int) -> None:
     """Função para testar a pesquisa sequencial
 
     Args:
