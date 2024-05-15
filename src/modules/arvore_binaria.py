@@ -41,24 +41,36 @@ class ArvoreBinaria:
         return no
 
 
-    def buscar(self, no: No, chave: int) -> bool:
+    def buscar(self, chave):
         """Função que busca um registro na árvore
 
         Args:
-            no (No): No da árvore.
+            chave (int): Chave a ser buscada.
+
+        Returns:
+            bool: Retorna True se a chave foi encontrada, False caso contrário.
+        """
+        self.numero_interacoes = 0
+        return self._buscar_recursivo(self.raiz, chave)
+
+    def _buscar_recursivo(self, no, chave):
+        """Função auxiliar recursiva para buscar um registro na árvore
+
+        Args:
+            no (No): Nó da árvore.
             chave (int): Chave a ser buscada.
 
         Returns:
             bool: Retorna True se a chave foi encontrada, False caso contrário.
         """
         if no is None:
-            return False
+            return self.numero_interacoes, False
 
         if chave < no.registro.chave:
             self.numero_interacoes += 1
-            return self.buscar(no.esquerda, chave)
+            return self._buscar_recursivo(no.esquerda, chave)
         if chave > no.registro.chave:
             self.numero_interacoes += 1
-            return self.buscar(no.direita, chave)
+            return self._buscar_recursivo(no.direita, chave)
 
-        return True
+        return self.numero_interacoes, True
