@@ -18,7 +18,7 @@ def inserir_registros(arvore, nome_arquivo: str) -> None:
     with open(nome_arquivo, "r", encoding="utf-8") as arquivo:
         for linha in arquivo:
             chave_registro = retorna_registro(linha.strip())
-            arvore.raiz = arvore.inserir(arvore.raiz, chave_registro)
+            arvore.inserir(chave_registro)
 
 
 def buscar_chaves_aleatorias(estrutura, chave_limite: int, max_presente: int, max_ausente: int) -> List[str]:

@@ -39,8 +39,8 @@ def teste_automatizado(quantidade_de_linhas: List[int]) -> None:
             arvore_binaria = ArvoreBinaria()
             arvore_test(arvore_binaria, ordenado=is_order, arquivo_saida="arvore_binaria", chave_limite=num_linhas)
 
-            arvore_avl = ArvoreAVL()
-            arvore_test(arvore_avl, ordenado=is_order, arquivo_saida="arvore_avl", chave_limite=num_linhas)
+            # arvore_avl = ArvoreAVL()
+            # arvore_test(arvore_avl, ordenado=is_order, arquivo_saida="arvore_avl", chave_limite=num_linhas)
 
             pesquisa_sequencial = PesquisaSequencial()
             pesquisa_sequencial_test(pesquisa_sequencial, ordenado=is_order, arquivo_saida="pesquisa_sequencial", chave_limite=num_linhas)

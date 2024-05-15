@@ -20,57 +20,47 @@ class ArvoreBinaria:
         self.numero_interacoes = 0
 
 
-    def inserir(self, no: No, registro) -> No:
-        """Função que insere um registro na árvore
+    def inserir(self, registro) -> None:
+        """Função que insere um registro na árvore.
 
         Args:
-            no (No): Nó da árvore.
-            registro (_type_): Registro a ser inserido.
-
-        Returns:
-            No: Retorna o nó inserido.
+            registro (_type_): Registro a ser inserido na árvore.
         """
-        if no is None:
-            return No(registro)
+        novo_no = No(registro)
+        if self.raiz is None:
+            self.raiz = novo_no
+        else:
+            atual = self.raiz
+            while True:
+                if novo_no.registro.chave < atual.registro.chave:
+                    if atual.esquerda is None:
+                        atual.esquerda = novo_no
+                        break
+                    atual = atual.esquerda
+                elif novo_no.registro.chave > atual.registro.chave:
+                    if atual.direita is None:
+                        atual.direita = novo_no
+                        break
+                    atual = atual.direita
 
-        if registro.chave < no.registro.chave:
-            no.esquerda = self.inserir(no.esquerda, registro)
-        elif registro.chave > no.registro.chave:
-            no.direita = self.inserir(no.direita, registro)
 
-        return no
-
-
-    def buscar(self, chave):
-        """Função que busca um registro na árvore
+    def buscar(self, chave) -> tuple:
+        """Função que busca um registro na árvore.
 
         Args:
-            chave (int): Chave a ser buscada.
+            chave (_type_): Registro a ser buscado na árvore.
 
         Returns:
-            bool: Retorna True se a chave foi encontrada, False caso contrário.
+            tuple: Retorna uma tupla com o número de interações e um booleano indicando se a chave foi encontrada.
         """
-        self.numero_interacoes = 0
-        return self._buscar_recursivo(self.raiz, chave)
+        atual = self.raiz
 
-    def _buscar_recursivo(self, no, chave):
-        """Função auxiliar recursiva para buscar um registro na árvore
-
-        Args:
-            no (No): Nó da árvore.
-            chave (int): Chave a ser buscada.
-
-        Returns:
-            bool: Retorna True se a chave foi encontrada, False caso contrário.
-        """
-        if no is None:
-            return self.numero_interacoes, False
-
-        if chave < no.registro.chave:
+        while atual is not None:
             self.numero_interacoes += 1
-            return self._buscar_recursivo(no.esquerda, chave)
-        if chave > no.registro.chave:
-            self.numero_interacoes += 1
-            return self._buscar_recursivo(no.direita, chave)
-
-        return self.numero_interacoes, True
+            if chave == atual.registro.chave:
+                return self.numero_interacoes, True
+            elif chave < atual.registro.chave:
+                atual = atual.esquerda
+            else:
+                atual = atual.direita
+        return self.numero_interacoes, False
