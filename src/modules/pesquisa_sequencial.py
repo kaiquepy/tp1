@@ -2,7 +2,7 @@
 Arquivo que contém a estrutura de dados pesquisa sequencial
 """
 
-def pesquisa_sequencial(nome_do_arquivo: str, chave: str) -> int:
+def pesquisa_sequencial(nome_do_arquivo: str, chave: int) -> tuple:
     """Estrutura de dados de pesquisa sequencial
 
     Args:
@@ -17,8 +17,8 @@ def pesquisa_sequencial(nome_do_arquivo: str, chave: str) -> int:
     with open(nome_do_arquivo, "r", encoding="utf-8") as arquivo:
         for linha in arquivo:
             numero_de_comparacoes = numero_de_comparacoes + 1
-            partes = linha.strip().split(",")
-            if partes[0] == chave:
-                print(f'chave encontrada na linha {linha}')
+            partes = linha.strip().split(";")
+            if int(partes[0]) == chave:
+                return numero_de_comparacoes, True
 
-    return numero_de_comparacoes
+    return numero_de_comparacoes, False

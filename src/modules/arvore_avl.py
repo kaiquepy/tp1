@@ -1,66 +1,116 @@
 """
-Arquivo que contém a estrutura de dados árvore avl
+Arquivo que contém a implementação da árvore AVL.
 """
 
 
-class Tiporeg:
-    def __init__(self, chave, dado1, dado2):
-        self.chave = chave
-        self.dado1 = dado1
-        self.dado2 = dado2
-
 class No:
+    """Nó da árvore AVL
+    """
     def __init__(self, registro):
         self.registro = registro
         self.esquerda = None
         self.direita = None
         self.altura = 1
 
+
 class ArvoreAVL:
+    """Class que representa a árvore AVL
+    """
     def __init__(self):
         self.raiz = None
         self.numero_interacoes = 0
 
 
-    def altura(self, no):
+    def altura(self, no) -> int:
+        """Retorna a altura de um nó.
+
+        Args:
+            no (_type_): No da árvore.
+
+        Returns:
+            int: Altura do nó.
+        """
         if no is None:
             return 0
         return no.altura
 
 
-    def maximo(self, a, b):
+    def maximo(self, a: int, b: int) -> int:
+        """Função que retorna o maior valor entre dois números.
+
+        Args:
+            a (int): Primeiro número.
+            b (int): Segundo número.
+
+        Returns:
+            int: O mair valor entre os dois números.
+        """
         return max(a, b)
 
 
-    def rotacao_direita(self, y):
+    def rotacao_direita(self, y: No) -> No:
+        """Função que realiza a rotação para a direita.
+
+        Args:
+            y (No): Recebe um nó da árvore.
+
+        Returns:
+            No: Retorna o nó rotacionado.
+        """
         x = y.esquerda
-        T = x.direita
+        t = x.direita
         x.direita = y
-        y.esquerda = T
+        y.esquerda = t
         y.altura = self.maximo(self.altura(y.esquerda), self.altura(y.direita)) + 1
         x.altura = self.maximo(self.altura(x.esquerda), self.altura(x.direita)) + 1
         return x
 
 
-    def rotacao_esquerda(self, x):
+    def rotacao_esquerda(self, x: No) -> No:
+        """Função que realiza a rotação para a esquerda.
+
+        Args:
+            x (No): Recebe um nó da árvore.
+
+        Returns:
+            No: Retorna o nó rotacionado.
+        """
         y = x.direita
-        T = y.esquerda
+        t = y.esquerda
         y.esquerda = x
-        x.direita = T
+        x.direita = t
         x.altura = self.maximo(self.altura(x.esquerda), self.altura(x.direita)) + 1
         y.altura = self.maximo(self.altura(y.esquerda), self.altura(y.direita)) + 1
         return y
 
 
     def fator_balanceamento(self, no):
+        """Função que retorna o fator de balanceamento de um nó.
+
+        Args:
+            no (_type_): No da árvore.
+
+        Returns:
+            _type_: Retorna o fator de balanceamento do nó.
+        """
         if no is None:
             return 0
         return self.altura(no.esquerda) - self.altura(no.direita)
 
 
-    def inserir(self, no, registro):
+    def inserir(self, no, registro) -> No:
+        """Função que insere um registro na árvore
+
+        Args:
+            no (_type_): No da árvore.
+            registro (_type_): Registro a ser inserido.
+
+        Returns:
+            No: Retorna o nó inserido.
+        """
         if no is None:
             return No(registro)
+
         if registro.chave < no.registro.chave:
             no.esquerda = self.inserir(no.esquerda, registro)
         elif registro.chave > no.registro.chave:
@@ -84,22 +134,24 @@ class ArvoreAVL:
         return no
 
 
-    def buscar(self, no, chave):
+    def buscar(self, no, chave: int) -> bool:
+        """Função que busca um registro na árvore
+
+        Args:
+            no (_type_): No da árvore.
+            chave (int): Chave a ser buscada.
+
+        Returns:
+            bool: Retorna True se a chave foi encontrada, False caso contrário.
+        """
         if no is None:
             return False
+
         if chave < no.registro.chave:
             self.numero_interacoes += 1
             return self.buscar(no.esquerda, chave)
-        elif chave > no.registro.chave:
+        if chave > no.registro.chave:
             self.numero_interacoes += 1
             return self.buscar(no.direita, chave)
-        else:
-            return True
 
-
-def retorna_tipo_reg(s):
-    parts = s.split(';')
-    chave = int(parts[0])
-    dado1 = int(parts[1])
-    dado2 = parts[2]
-    return Tiporeg(chave, dado1, dado2)
+        return True

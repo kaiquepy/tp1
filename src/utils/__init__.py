@@ -1,2 +1,3 @@
-"""Módulo de utils
+"""
+Module for utility functions.
 """

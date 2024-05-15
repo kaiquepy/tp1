@@ -1,5 +1,5 @@
 """
-Arquivo com funções uteis que podem ser reutilizadas
+Arquivo com funções utilitárias para o projeto.
 """
 
 import time

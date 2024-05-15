@@ -1,2 +1,3 @@
-"""Módulo que contém as estruturas de dados
+"""
+Modules package.
 """
