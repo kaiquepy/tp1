@@ -1,14 +1,43 @@
-# Trabalho Prático I
+<div id="top"></div>
+
+<!--Banner e logo-->
+<h2 align="center" >
+  <img src="./docs/assets/banner.png" alt="Plantae logo" title="Plantae" />
+</h2>
+
+<!--Short description-->
+<h4 align="center">Trabalho prático 1 da discilina AEDS III</h4>
 
 
-## Clone
+<!--Sobre o projeto-->
+## :computer: Sobre o projeto
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## :rocket: Como executar o projeto
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas: [Git](https://git-scm.com/) e [Python3](https://www.python.org/).
+
+
+<!--Running session-->
+### :package: Instalando
 ```bash
-git clone https://github.com/kaiquepy/tp1.git
+# Clone este repositório
+$ git clone https://github.com/kaiquepy/tp1.git
 
-cd tp1/
+# Acesse a pasta do projeto no terminal
+$ cd tp1/
 ```
 
-## Setup
+### ⚡ Rodando a aplicação [main.py](/src/main.py)
 ```bash
-python3 src/main.py
+# Execute o arquivo principal
+$ python3 main.py
 ```
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+<!--Layout session-->
+## :art: Aplicação
+<h2 align="center" >
+  <img src="./docs/assets/menu.png" alt="Menu da aplicação" title="Menu da aplicação" />
+</h2>
+<p align="right">(<a href="#top">back to top</a>)</p>

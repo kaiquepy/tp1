@@ -55,7 +55,7 @@ def menu(quantidade_de_linhas = None) -> None:
     limpar_tela()
     print(f"{'='*10} Menu - TP1 {'='*10}")
     print("1 - Gerar arquivos")
-    print("2 - Testar arquivos gerados")
+    print("2 - Testar estruturas de dados")
     print("3 - Sair")
 
     opcao = input("\nDigite a opção desejada: ")
