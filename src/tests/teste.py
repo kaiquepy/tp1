@@ -69,9 +69,14 @@ def gravar_resultados(arquivo_entrada: str, nome_arquivo_saida: str, encontradas
         encontradas (List[str]): Lista com as chaves encontradas
         nao_encontradas (List[str]): Lista com as chaves não encontradas
     """
+    print(f"\nEstrutura de dados testada: {nome_arquivo_saida.split('/')[1].split('.')[0]}\n")
+
     with open(nome_arquivo_saida, "a", encoding="utf-8") as arquivo_saida:
+        print(f"Arquivo: {arquivo_entrada.split('/')[1]}")
+
         arquivo_saida.write(f"\n\n{arquivo_entrada}\n")
         for linha in encontradas + nao_encontradas:
+            print(linha)
             arquivo_saida.write(f"{linha}\n")
 
 

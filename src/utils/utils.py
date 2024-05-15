@@ -49,8 +49,15 @@ def gerar_arquivo(linhas: int, chaves_ordenadas: bool) -> None:
         nome_do_arquivo = f'arquivos_entrada/{linhas}_desordenado.txt'
         chave = random.sample(range_chaves, linhas)
 
+    print(f"Gerando arquivo {nome_do_arquivo.split('/')[1]}")
     with open(nome_do_arquivo, "w", encoding="utf-8") as arquivo:
         for i in range(linhas):
             dado2 = ''.join(random.choices(string.ascii_uppercase, k=1000))
             linha = f'{chave[i]};12345;{dado2}\n'
             arquivo.write(linha)
+
+
+def limpar_tela():
+    """Função que limpa a tela do terminal.
+    """
+    print("\033[H\033[J")
