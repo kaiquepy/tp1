@@ -1,170 +1,104 @@
-"""
-Arquivo que contém a implementação da árvore AVL.
-"""
+# Classe que define um nó da árvore AVL.
+class NoAVL:
+    def __init__(self, chave, dado1, dado2):
+        self.chave = chave       # Chave do nó
+        self.dado1 = dado1       # Primeiro dado (valor inteiro)
+        self.dado2 = dado2       # Segundo dado (combinação de letras)
+        self.esquerda = None     # Filho à esquerda
+        self.direita = None      # Filho à direita
+        self.altura = 1          # Altura do nó (inicializada como 1)
 
+# Função auxiliar para obter a altura de um nó.
+def obter_altura(no):
+    if no is None:
+        return 0
+    return no.altura
 
-class No:
-    """Nó da árvore AVL
-    """
-    def __init__(self, registro):
-        self.registro = registro
-        self.esquerda = None
-        self.direita = None
-        self.altura = 1
+# Função auxiliar para obter o fator de balanceamento de um nó.
+def obter_fator_balanceamento(no):
+    if no is None:
+        return 0
+    return obter_altura(no.esquerda) - obter_altura(no.direita)
 
-
-class ArvoreAVL:
-    """Class que representa a árvore AVL
-    """
-    def __init__(self):
-        self.raiz = None
-        self.numero_interacoes = 0
-
-
-    def altura(self, no) -> int:
-        """Retorna a altura de um nó.
-
-        Args:
-            no (_type_): No da árvore.
-
-        Returns:
-            int: Altura do nó.
-        """
-        if no is None:
-            return 0
-        return no.altura
-
-
-    def maximo(self, a: int, b: int) -> int:
-        """Função que retorna o maior valor entre dois números.
-
-        Args:
-            a (int): Primeiro número.
-            b (int): Segundo número.
-
-        Returns:
-            int: O mair valor entre os dois números.
-        """
-        return max(a, b)
-
-
-    def rotacao_direita(self, y: No) -> No:
-        """Função que realiza a rotação para a direita.
-
-        Args:
-            y (No): Recebe um nó da árvore.
-
-        Returns:
-            No: Retorna o nó rotacionado.
-        """
-        x = y.esquerda
-        t = x.direita
-        x.direita = y
-        y.esquerda = t
-        y.altura = self.maximo(self.altura(y.esquerda), self.altura(y.direita)) + 1
-        x.altura = self.maximo(self.altura(x.esquerda), self.altura(x.direita)) + 1
-        return x
-
-
-    def rotacao_esquerda(self, x: No) -> No:
-        """Função que realiza a rotação para a esquerda.
-
-        Args:
-            x (No): Recebe um nó da árvore.
-
-        Returns:
-            No: Retorna o nó rotacionado.
-        """
-        y = x.direita
-        t = y.esquerda
-        y.esquerda = x
-        x.direita = t
-        x.altura = self.maximo(self.altura(x.esquerda), self.altura(x.direita)) + 1
-        y.altura = self.maximo(self.altura(y.esquerda), self.altura(y.direita)) + 1
+# Função auxiliar para fazer a rotação simples à direita.
+def rotacao_direita(y):
+    if y is None or y.esquerda is None:
         return y
 
+    x = y.esquerda
+    T2 = x.direita
 
-    def fator_balanceamento(self, no):
-        """Função que retorna o fator de balanceamento de um nó.
+    x.direita = y
+    y.esquerda = T2
 
-        Args:
-            no (_type_): No da árvore.
+    y.altura = 1 + max(obter_altura(y.esquerda), obter_altura(y.direita))
+    x.altura = 1 + max(obter_altura(x.esquerda), obter_altura(x.direita))
 
-        Returns:
-            _type_: Retorna o fator de balanceamento do nó.
-        """
-        if no is None:
-            return 0
-        return self.altura(no.esquerda) - self.altura(no.direita)
+    return x
 
+# Função auxiliar para fazer a rotação simples à esquerda.
+def rotacao_esquerda(x):
+    if x is None or x.direita is None:
+        return x
 
-    def inserir(self, no, registro) -> No:
-        """Função que insere um registro na árvore
+    y = x.direita
+    T2 = y.esquerda
 
-        Args:
-            no (_type_): No da árvore.
-            registro (_type_): Registro a ser inserido.
+    y.esquerda = x
+    x.direita = T2
 
-        Returns:
-            No: Retorna o nó inserido.
-        """
-        if no is None:
-            return No(registro)
+    x.altura = 1 + max(obter_altura(x.esquerda), obter_altura(x.direita))
+    y.altura = 1 + max(obter_altura(y.esquerda), obter_altura(y.direita))
 
-        if registro.chave < no.registro.chave:
-            no.esquerda = self.inserir(no.esquerda, registro)
-        elif registro.chave > no.registro.chave:
-            no.direita = self.inserir(no.direita, registro)
+    return y
+
+# Função que insere um nó na árvore AVL.
+def inserir(raiz, registro):
+    if raiz is None:
+        return NoAVL(registro.chave, registro.dado1, registro.dado2)
+
+    if registro.chave < raiz.chave:
+        raiz.esquerda = inserir(raiz.esquerda, registro)
+    else:
+        raiz.direita = inserir(raiz.direita, registro)
+
+    raiz.altura = 1 + max(obter_altura(raiz.esquerda), obter_altura(raiz.direita))
+
+    balanceamento = obter_fator_balanceamento(raiz)
+
+    # Casos de desequilíbrio
+    if balanceamento > 1:
+        if registro.chave < raiz.esquerda.chave:
+            return rotacao_direita(raiz)
         else:
-            return no
+            raiz.esquerda = rotacao_esquerda(raiz.esquerda)
+            return rotacao_direita(raiz)
+    if balanceamento < -1:
+        if registro.chave > raiz.direita.chave:
+            return rotacao_esquerda(raiz)
+        else:
+            raiz.direita = rotacao_direita(raiz.direita)
+            return rotacao_esquerda(raiz)
 
-        no.altura = 1 + self.maximo(self.altura(no.esquerda), self.altura(no.direita))
-        balance = self.fator_balanceamento(no)
+    return raiz
 
-        if balance > 1 and registro.chave < no.esquerda.registro.chave:
-            return self.rotacao_direita(no)
-        if balance < -1 and registro.chave > no.direita.registro.chave:
-            return self.rotacao_esquerda(no)
-        if balance > 1 and registro.chave > no.esquerda.registro.chave:
-            no.esquerda = self.rotacao_esquerda(no.esquerda)
-            return self.rotacao_direita(no)
-        if balance < -1 and registro.chave < no.direita.registro.chave:
-            no.direita = self.rotacao_direita(no.direita)
-            return self.rotacao_esquerda(no)
-        return no
+# Classe que define a árvore AVL.
+class ArvoreAVL:
+    def __init__(self):
+        self.raiz = None
 
+    def inserir(self, registro):
+        self.raiz = inserir(self.raiz, registro)
 
     def buscar(self, chave):
-        """Função que busca um registro na árvore
+        no = self._buscar(self.raiz, chave)
+        return no
 
-        Args:
-            chave (int): Chave a ser buscada.
-
-        Returns:
-            bool: Retorna True se a chave foi encontrada, False caso contrário.
-        """
-        self.numero_interacoes = 0
-        return self._buscar_recursivo(self.raiz, chave)
-
-
-    def _buscar_recursivo(self, no, chave):
-        """Função auxiliar recursiva para buscar um registro na árvore
-
-        Args:
-            no (No): Nó da árvore.
-            chave (int): Chave a ser buscada.
-
-        Returns:
-            bool: Retorna True se a chave foi encontrada, False caso contrário.
-        """
+    def _buscar(self, no, chave):
         if no is None:
-            return self.numero_interacoes, False
-
-        if chave < no.registro.chave:
-            self.numero_interacoes += 1
-            return self._buscar_recursivo(no.esquerda, chave)
-        if chave > no.registro.chave:
-            self.numero_interacoes += 1
-            return self._buscar_recursivo(no.direita, chave)
-
-        return self.numero_interacoes, True
+            return 1, False
+        if no.chave == chave:
+            return 1, True
+        if chave < no.chave:
+            return self._buscar(no.esquerda, chave)
+        return self._buscar(no.direita, chave)
