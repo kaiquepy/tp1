@@ -41,6 +41,3 @@ $ python3 main.py
   <img src="./docs/assets/menu.png" alt="Menu da aplicação" title="Menu da aplicação" />
 </h2>
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
-![image](https://imgur.com/a/9wGS7oE)
