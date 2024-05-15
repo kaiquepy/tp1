@@ -6,12 +6,12 @@
 </h2>
 
 <!--Short description-->
-<h4 align="center">Trabalho prático 1 da discilina AEDS III</h4>
+<h4 align="center">Análise do desempenho das estruturas e dados: Acesso sequencial, árvore binária e árvore binária balanceada (AVL).</h4>
 
 
 <!--Sobre o projeto-->
 ## :computer: Sobre o projeto
-
+O projeto requer a implementação de três estruturas de dados (sequencial, árvore binária e árvore binária balanceada) ou a utilização de bibliotecas que as ofereçam. Os registros da base de dados devem ser armazenados em arquivos de texto, cada linha contendo uma chave (int), dado1 (valor inteiro) e dado2 (string de até 1000 caracteres). O aluno é responsável por criar um gerador de dados aleatórios com essas características para preencher as estruturas de dados. O sistema lerá esses arquivos para preencher as estruturas.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## :rocket: Como executar o projeto
