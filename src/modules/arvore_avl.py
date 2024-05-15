@@ -86,6 +86,7 @@ def inserir(raiz, registro):
 class ArvoreAVL:
     def __init__(self):
         self.raiz = None
+        self.numero_interacoes = 0
 
     def inserir(self, registro):
         self.raiz = inserir(self.raiz, registro)
@@ -95,10 +96,11 @@ class ArvoreAVL:
         return no
 
     def _buscar(self, no, chave):
+        self.numero_interacoes += 1
         if no is None:
-            return 1, False
+            return self.numero_interacoes, False
         if no.chave == chave:
-            return 1, True
+            return self.numero_interacoes, True
         if chave < no.chave:
             return self._buscar(no.esquerda, chave)
         return self._buscar(no.direita, chave)
