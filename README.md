@@ -31,7 +31,7 @@ $ cd tp1/
 ### ⚡ Rodando a aplicação [main.py](/src/main.py)
 ```bash
 # Execute o arquivo principal
-$ python3 main.py
+$ python3 src/main.py
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
