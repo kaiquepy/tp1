@@ -69,9 +69,9 @@ def gravar_resultados(arquivo_entrada: str, nome_arquivo_saida: str, resultados)
     """Função para gravar os resultados em um arquivo de saída
 
     Args:
+        arquivo_entrada (str): Nome do arquivo de entrada
         nome_arquivo_saida (str): Nome do arquivo de saída
-        encontradas (List[str]): Lista com as chaves encontradas
-        nao_encontradas (List[str]): Lista com as chaves não encontradas
+        resultados (List[dict]): Lista com os resultados das buscas
     """
     print(f"\nEstrutura de dados testada: {nome_arquivo_saida.split('/')[1].split('.')[0]}")
 
@@ -80,16 +80,29 @@ def gravar_resultados(arquivo_entrada: str, nome_arquivo_saida: str, resultados)
     total_encontradas = 0
     total_nao_encontradas = 0
 
+    comparacoes_encontradas = 0
+    comparacoes_nao_encontradas = 0
+    tempo_encontradas = 0
+    tempo_nao_encontradas = 0
+
     for resultado in resultados:
         total_comparacoes += resultado["interacoes"]
         total_tempo_busca += float(resultado["tempo_de_busca"])
         if resultado["encontrada"]:
             total_encontradas += 1
+            comparacoes_encontradas += resultado["interacoes"]
+            tempo_encontradas += float(resultado["tempo_de_busca"])
         else:
             total_nao_encontradas += 1
+            comparacoes_nao_encontradas += resultado["interacoes"]
+            tempo_nao_encontradas += float(resultado["tempo_de_busca"])
 
     media_comparacoes = total_comparacoes / len(resultados) if len(resultados) > 0 else 0
     media_tempo_busca = total_tempo_busca / len(resultados) if len(resultados) > 0 else 0
+    media_comparacoes_encontradas = comparacoes_encontradas / total_encontradas if total_encontradas > 0 else 0
+    media_comparacoes_nao_encontradas = comparacoes_nao_encontradas / total_nao_encontradas if total_nao_encontradas > 0 else 0
+    media_tempo_encontradas = tempo_encontradas / total_encontradas if total_encontradas > 0 else 0
+    media_tempo_nao_encontradas = tempo_nao_encontradas / total_nao_encontradas if total_nao_encontradas > 0 else 0
 
     data = {
         "arquivo_entrada": arquivo_entrada,
@@ -98,8 +111,13 @@ def gravar_resultados(arquivo_entrada: str, nome_arquivo_saida: str, resultados)
         "total_nao_encontradas": total_nao_encontradas,
         "media_comparacoes": f'{media_comparacoes:.2f}',
         "media_tempo_busca": f'{media_tempo_busca:.9f}',
+        "media_comparacoes_encontradas": f'{media_comparacoes_encontradas:.2f}',
+        "media_comparacoes_nao_encontradas": f'{media_comparacoes_nao_encontradas:.2f}',
+        "media_tempo_encontradas": f'{media_tempo_encontradas:.9f}',
+        "media_tempo_nao_encontradas": f'{media_tempo_nao_encontradas:.9f}',
         "resultados": resultados
     }
+
     with open(nome_arquivo_saida, "a", encoding="utf-8") as arquivo_saida:
         print(f"Arquivo: {arquivo_entrada.split('/')[1]}")
         json.dump(data, arquivo_saida, indent=4)
