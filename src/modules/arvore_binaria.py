@@ -54,7 +54,7 @@ class ArvoreBinaria:
             tuple: Retorna uma tupla com o número de interações e um booleano indicando se a chave foi encontrada.
         """
         atual = self.raiz
-
+        self.numero_interacoes = 0
         while atual is not None:
             self.numero_interacoes += 1
             if chave == atual.registro.chave:

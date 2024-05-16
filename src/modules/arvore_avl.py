@@ -154,6 +154,7 @@ class ArvoreAVL:
         Returns:
             _type_: Retorna o nó da árvore AVL que contém a chave buscada.
         """
+        self.numero_interacoes = 0
         no = self._buscar(self.raiz, chave)
         return no
 
